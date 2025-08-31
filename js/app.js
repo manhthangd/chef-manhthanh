@@ -101,6 +101,23 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
+    // Initialize filter on load: prefer the button marked active, else the first button
+    var initialBtn = container.querySelector('.portfolio-filters .btn-filter.active')
+        || container.querySelector('.portfolio-filters .btn-filter');
+    if (initialBtn) {
+      buttons.forEach(function (b) {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      initialBtn.classList.add('active');
+      initialBtn.setAttribute('aria-pressed', 'true');
+      var initialCategory = (initialBtn.getAttribute('data-filter') || 'all').toLowerCase();
+      applyFilter(initialCategory);
+    } else {
+      applyFilter('all');
+    }
+
+
     // Keyboard navigation inside grid
     container.addEventListener('keydown', function (e) {
       var focusCard = document.activeElement.closest('.portfolio-card');
